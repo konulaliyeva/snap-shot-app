@@ -18,15 +18,3 @@ function Body({ photos }) {
   );
 }
 export default Body;
-
-// <div className="body_wrapper">
-//         <div className="photo_container">
-//           <ul>
-//             {photos.map((photo) => (
-//               <li key={photo.id} className="mb-4">
-//                 <img src={photo.url} />
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-//       </div>
