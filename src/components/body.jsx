@@ -7,7 +7,7 @@ function Body({ photos }) {
         <div className="row">
           {photos.map((photo) => (
             <div key={photo.id} className="col col-md-3 col-sm-6">
-              <div  className="mx-2 mb-4">
+              <div  className="mb-3">
                 <img src={photo.url} alt="img" />
               </div>
             </div>
