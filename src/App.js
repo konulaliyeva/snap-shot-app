@@ -4,20 +4,23 @@ import Body from "./components/body";
 import { useEffect } from "react";
 import { useState } from "react";
 import Pagination from "react-js-pagination";
-
+import "./pagination.css"
 
 function App() {
   const [photos, setPhotos] = useState([]);
   const [text, setText] = useState("All Images");
   const [page, setPage] = useState(1);
-
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     fetch(
-      "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=636e1481b4f3c446d26b8eb6ebfe7127&tags=mountain&per_page="+page+"&format=json&nojsoncallback=1"
+      "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=636e1481b4f3c446d26b8eb6ebfe7127&tags=mountain&page=" +
+        page +
+        "&per_page=20&format=json&nojsoncallback=1"
     )
       .then((response) => response.json())
       .then((data) => {
+        setTotalCount(data.photos.total);
         const photos = data.photos.photo.map((photo) => {
           return {
             id: photo.id,
@@ -34,11 +37,10 @@ function App() {
     fetch(
       "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=636e1481b4f3c446d26b8eb6ebfe7127&tags= " +
         tag +
-        "&per_page="+20+"&format=json&nojsoncallback=1"
+        "&per_page=20&format=json&nojsoncallback=1"
     )
       .then((response) => response.json())
       .then((data) => {
-  
         const photos = data.photos.photo.map((photo) => {
           return {
             id: photo.id,
@@ -50,11 +52,11 @@ function App() {
         setPhotos(photos);
         setText(tag + " Images");
       });
-
   }
-  const handlePageChange =(pageNumber) => {
+  const handlePageChange = (pageNumber) => {
+    console.log("pageNumber", pageNumber);
     setPage(pageNumber);
- }
+  };
   return (
     <>
       <div className="container">
@@ -63,12 +65,14 @@ function App() {
         <Body photos={photos} />
       </div>
       <Pagination
-          activePage={page}
-          itemsCountPerPage={20}
-          totalItemsCount={150}
-          pageRangeDisplayed={5}
-          onChange={handlePageChange}
-        />
+        activePage={page}
+        itemsCountPerPage={20}
+        totalItemsCount={totalCount}
+        pageRangeDisplayed={10}
+        onChange={handlePageChange}
+
+        
+      />
     </>
   );
 }
